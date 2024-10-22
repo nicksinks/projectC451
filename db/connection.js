@@ -1,5 +1,6 @@
 const mysql = require('mysql2');
 require('dotenv').config();
+console.log(process.env.DB_USER);  // Should print your database username
 
 
 const connection = mysql.createConnection({
