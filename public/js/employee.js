@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 jsonDataContainer.textContent = 'No employee data found.';
                 return;
             }
-            jsonDataContainer.textContent = JSON.stringify(data);  // 2-space indentation for pretty printing
+            jsonDataContainer.textContent = JSON.stringify(data, null, 2);  // 2-space indentation for pretty printing
         })
         .catch(error => {
             console.error('Error fetching employee data:', error);
