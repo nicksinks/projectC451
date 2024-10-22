@@ -23,3 +23,56 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 });
 
+const modal = document.getElementById('employee-modal');
+const addEmployeeBtn = document.getElementById('add-employee-btn');
+const closeModal = document.querySelector('.close-modal');
+
+addEmployeeBtn.addEventListener('click', () => {
+    modal.style.display = 'block';
+});
+
+closeModal.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
+
+window.addEventListener('click', (event) => {
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+
+const form = document.getElementById('add-employee-form');
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(form);
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const role = formData.get('role');
+
+    // Send POST request to add new employee
+    fetch('/persons/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, email, role })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error adding employee');
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert('Employee added successfully!');
+        modal.style.display = 'none';
+        form.reset();
+        // Optionally, reload employee list
+        window.location.reload();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to add employee.');
+    });
+});
