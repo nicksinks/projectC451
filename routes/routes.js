@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+
+/*git comment added by me*/
 //const adminController = require('../controllers/adminController');
 
 // Routes for employee management
