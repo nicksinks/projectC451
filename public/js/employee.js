@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function () {
     const jsonDataContainer = document.getElementById('json-data');
 
@@ -7,11 +8,12 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
+            console.log(response.json());
             return response.json();
         })
         .then(data => {
             // Pretty-print the JSON data and display it
-            jsonDataContainer.textContent = JSON.stringify(data, null, 2);  // 2-space indentation for pretty printing
+            jsonDataContainer.textContent = JSON.stringify(data);  // 2-space indentation for pretty printing
         })
         .catch(error => {
             console.error('Error fetching employee data:', error);
