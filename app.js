@@ -1,22 +1,8 @@
-//const express = require('express');
-//const app = express();
-
-//app.get('/', (req, res) => {
-//        res.send('Hello, its an Express JS site');
-//});
-
-//const port = 2000;
-
-//app.listen(port, () => {
-//        console.log(`server is running on http://localhost:${port}`);
-//});
-/* previous code used in example app build */
-
 
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-//const mysql = require('mysql2');
+const mysql = require('mysql2');
 const path = require('path');
 const app = express();
 
