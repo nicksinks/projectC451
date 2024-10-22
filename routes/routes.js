@@ -1,17 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-
-/*git comment added by me*/
-//const adminController = require('../controllers/adminController');
-
-// Routes for employee management
-//router.get('/employees', adminController.getEmployees);
-//router.post('/employees', adminController.addEmployee);
-
-// Routes for secured doors
-//router.get('/doors', adminController.getDoors);
-//router.post('/doors', adminController.addDoor);
+const db = require('../db/connection');
 
 router.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname, '../public/index.html'));
@@ -28,6 +18,17 @@ router.get('/employees', (req, res) => {
 router.get('/doors', (req, res) => {
         res.sendFile(path.join(__dirname, '../public/doors.html'));
 });
+
+router.get('/persons/list', (req, res) => {
+        const query = 'SELECT * FROM persons';
+        db.query(query, (err, results) => {
+            if (err) {
+                console.error('Database query error:', err);
+                return res.status(500).json({ error: 'Failed to query database' });
+            }
+            res.json(results);  // Send the results as JSON
+        });
+    });
 
 module.exports = router
 ;
