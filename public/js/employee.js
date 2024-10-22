@@ -8,11 +8,13 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            console.log(response.json());
             return response.json();
         })
         .then(data => {
-            // Pretty-print the JSON data and display it
+            if (data == null){
+                jsonDataContainer.textContent = 'No employee data found.';
+                return;
+            }
             jsonDataContainer.textContent = JSON.stringify(data);  // 2-space indentation for pretty printing
         })
         .catch(error => {
