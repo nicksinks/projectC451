@@ -16,6 +16,28 @@
         <div id="json-data" class="employee-container">
             <!-- Employees will be dynamically added here -->
         </div>
+
+        <button id="add-employee-btn">Add Employee</button>
+
+        <!-- Modal for adding employees -->
+        <div id="employee-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Add a New Employee</h2>
+                <form id="add-employee-form">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="role">Role:</label>
+                    <input type="text" id="role" name="role" required>
+
+                    <button type="submit">Add Employee</button>
+                </form>
+            </div>
+        </div>
     </main>
 
     <footer>
