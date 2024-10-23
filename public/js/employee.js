@@ -48,7 +48,9 @@ form.addEventListener('submit', (event) => {
     const formData = new FormData(form);
     const name = formData.get('name');
     const email = formData.get('email');
-    const role = formData.get('role');
+    const department = formData.get('department');
+    const departmentID = formData.get('departmentID');
+    const secGroup = formData.get('secGroup');
 
     // Send POST request to add new employee
     fetch('/persons/add', {
@@ -56,7 +58,7 @@ form.addEventListener('submit', (event) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ name, email, role })
+        body: JSON.stringify({ name, email, department, departmentID, secGroup })
     })
     .then(response => {
         if (!response.ok) {
