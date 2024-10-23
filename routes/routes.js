@@ -30,5 +30,17 @@ router.get('/persons/list', (req, res) => {
         });
     });
 
+    router.post('/persons/add', (req, res) => {
+        const { name, email, role } = req.body;
+        const query = 'INSERT INTO persons (name, email, role) VALUES (?, ?, ?)';
+        db.query(query, [name, email, role], (err, results) => {
+            if (err) {
+                console.error('Error adding employee:', err);
+                return res.status(500).json({ error: 'Failed to add employee' });
+            }
+            res.status(201).json({ message: 'Employee added successfully' });
+        });
+    });
+
 module.exports = router
 ;
