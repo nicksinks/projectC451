@@ -1,26 +1,87 @@
 
 document.addEventListener('DOMContentLoaded', function () {
     const jsonDataContainer = document.getElementById('json-data');
-
+/*old code
     // Fetch employee data from the backend API
+    // fetch('/persons/list')
+    //     .then(response => {
+    //         if (!response.ok) {
+    //             throw new Error('Network response was not ok');
+    //         }
+    //         return response.json();
+    //     })
+    //     .then(data => {
+    //         if (data == null){
+    //             jsonDataContainer.textContent = 'No employee data found.';
+    //             return;
+    //         }
+    //         jsonDataContainer.textContent = JSON.stringify(data, null, 2);  // 2-space indentation for pretty printing
+    //     })
+    //     .catch(error => {
+    //         console.error('Error fetching employee data:', error);
+    //         jsonDataContainer.textContent = 'Error loading employee data.';
+    //     });
+
+    */
+
     fetch('/persons/list')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data == null){
-                jsonDataContainer.textContent = 'No employee data found.';
-                return;
-            }
-            jsonDataContainer.textContent = JSON.stringify(data, null, 2);  // 2-space indentation for pretty printing
-        })
-        .catch(error => {
-            console.error('Error fetching employee data:', error);
-            jsonDataContainer.textContent = 'Error loading employee data.';
+    .then(response => response.json())
+    .then(data => {
+        // Clear existing table data
+        employeeTableBody.innerHTML = '';
+
+        // Loop through each employee and create table rows securely
+        data.forEach(employee => {
+            const row = document.createElement('tr');
+
+            // Create individual cells
+            const nameCell = document.createElement('td');
+            nameCell.textContent = employee.name;
+
+            const emailCell = document.createElement('td');
+            emailCell.textContent = employee.email;
+
+            const departmentCell = document.createElement('td');
+            departmentCell.textContent = employee.department;
+
+            const departmentIDCell = document.createElement('td');
+            departmentIDCell.textContent = employee.departmentID;
+
+            const secGroupCell = document.createElement('td');
+            secGroupCell.textContent = employee.secGroup;
+
+            // Create action cell with edit button
+            const actionsCell = document.createElement('td');
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Edit';
+            editButton.classList.add('edit-btn');
+            editButton.setAttribute('data-id', employee.id);
+            actionsCell.appendChild(editButton);
+
+            // Append cells to the row
+            row.appendChild(nameCell);
+            row.appendChild(emailCell);
+            row.appendChild(departmentCell);
+            row.appendChild(departmentIDCell);
+            row.appendChild(secGroupCell);
+            row.appendChild(actionsCell);
+
+            // Append the row to the table body
+            employeeTableBody.appendChild(row);
         });
+
+        // Add event listeners to the Edit buttons
+        document.querySelectorAll('.edit-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const employeeId = this.getAttribute('data-id');
+                alert(`Edit employee with ID: ${employeeId}`);
+                // TODO: Implement the edit functionality
+            });
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching employee data:', error);
+    });
 });
 
 const modal = document.getElementById('employee-modal');
