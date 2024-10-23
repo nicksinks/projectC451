@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
     .then(response => response.json())
     .then(data => {
         // Clear existing table data
-        employeeTableBody.innerHTML = '';
+        jsonDataContainer.innerHTML = '';
 
         // Loop through each employee and create table rows securely
         data.forEach(employee => {
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
             row.appendChild(actionsCell);
 
             // Append the row to the table body
-            employeeTableBody.appendChild(row);
+            jsonDataContainer.appendChild(row);
         });
 
         // Add event listeners to the Edit buttons
