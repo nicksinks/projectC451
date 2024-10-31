@@ -166,7 +166,7 @@ deleteBtn.addEventListener('click', function () {
             alert('Failed to delete employee.');
         });
     }
-}
+});
 
 
 
