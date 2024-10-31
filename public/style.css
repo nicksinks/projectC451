@@ -38,10 +38,16 @@ main {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 300px;
+    min-height: 250px;  /* Set a minimum height */
     padding: 1.5em;
     text-align: center;
     transition: transform 0.2s ease-in-out;
+    word-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
+
 
 .employee-card:hover {
     transform: scale(1.05);
