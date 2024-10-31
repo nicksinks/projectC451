@@ -42,5 +42,30 @@ router.get('/persons/list', (req, res) => {
         });
     });
 
+router.get('/persons/:id', (req, res) => {
+    const query = 'SELECT * FROM persons WHERE id = ?';
+    db.query(query, [req.params.id], (err, results) => {
+        if (err) {
+            console.error('Error querying database:', err);
+            return res.status(500).json({ error: 'Failed to query database' });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'Employee not found' });
+        }
+        res.json(results[0]);
+    });
+});
+
+router.get('/persons/delete/:id', (req, res) => {
+    const query = 'DELETE FROM persons WHERE id = ?';
+    db.query(query, [req.params.id], (err, results) => {
+        if (err) {
+            console.error('Error deleting employee:', err);
+            return res.status(500).json({ error: 'Failed to delete employee' });
+        }
+        res.json({ message: 'Employee deleted successfully' });
+    });
+});
+
 module.exports = router
 ;
