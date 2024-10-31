@@ -87,9 +87,6 @@ function openEditModal(id)  {
         })
 }
 
-editCloseModal.addEventListener('click', () => {
-    editModal.style.display = 'none';
-});
 
 editForm.addEventListener('submit', function (event)  {
     event.preventDefault();
@@ -148,7 +145,9 @@ deleteBtn.addEventListener('click', function () {
 });
 
 
-
+editCloseModal.addEventListener('click', () => {
+    editModal.style.display = 'none';
+});
 
 addEmployeeBtn.addEventListener('click', () => {
     modal.style.display = 'block';
