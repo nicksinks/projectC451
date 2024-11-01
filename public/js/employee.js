@@ -67,7 +67,7 @@ const modal = document.getElementById('employee-modal');
 const addEmployeeBtn = document.getElementById('add-employee-btn');
 const closeModal = document.querySelector('.close-modal');
 const editModal = document.getElementById('edit-employee-modal');
-const editCloseModal = document.querySelector('.close-modal');
+const editCloseModal = document.querySelector('.close-modal edit-close-modal');
 const editForm = document.getElementById('edit-employee-form');
 const deleteBtn = document.getElementById('delete-employee-btn');
 
@@ -153,12 +153,11 @@ addEmployeeBtn.addEventListener('click', () => {
 
 closeModal.addEventListener('click', () => {
     modal.style.display = 'none';
-    editModal.style.display = 'none';
 });
 
-// editCloseModal.addEventListener('click', () => {
-//     editModal.style.display = 'none';
-// });
+editCloseModal.addEventListener('click', () => {
+    editModal.style.display = 'none';
+});
 
 window.addEventListener('click', (event) => {
     if (event.target === modal) {
