@@ -42,9 +42,27 @@ router.get('/persons/list', (req, res) => {
         });
     });
 
+
+//update an employee by running a SQL update query by ID
+router.put('/persons/update/:id', (req, res) => {
+    const { id } = req.params;
+    const { name, email, department, departmentID, secGroup } = req.body;
+    const query = 'UPDATE persons SET name = ?, email = ?, department = ?, departmentID = ?, secGroup = ? WHERE id = ?';
+    db.query(query, [name, email, department, departmentID, secGroup, id], (err, results) => {
+        if (err) {
+            console.error('Error updating employee:', err);
+            return res.status(500).json({ error: 'Failed to update employee' });
+        }
+        res.json({ message: 'Employee updated successfully' });
+    });
+});
+
+
+//get employee by ID for edit modal (or other application)
 router.get('/persons/:id', (req, res) => {
+    const { id } = req.params;
     const query = 'SELECT * FROM persons WHERE id = ?';
-    db.query(query, [req.params.id], (err, results) => {
+    db.query(query, [id], (err, results) => {
         if (err) {
             console.error('Error querying database:', err);
             return res.status(500).json({ error: 'Failed to query database' });
@@ -56,6 +74,7 @@ router.get('/persons/:id', (req, res) => {
     });
 });
 
+//use the delete statement from the edit modal
 router.get('/persons/delete/:id', (req, res) => {
     const query = 'DELETE FROM persons WHERE id = ?';
     db.query(query, [req.params.id], (err, results) => {
