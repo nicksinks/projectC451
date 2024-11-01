@@ -145,6 +145,7 @@ button {
     padding: 5px 10px;
     cursor: pointer;
     border-radius: 4px;
+    max-height: 10%;
 }
 
 button:hover {
