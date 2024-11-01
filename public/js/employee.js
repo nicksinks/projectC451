@@ -99,7 +99,9 @@ editForm.addEventListener('submit', function (event)  {
         secGroup: editForm.elements['secGroup'].value
     };
 
-    fetch(`/persons/${id}`, {
+    console.log('Sending PUT request to update employee:', updatedEmployee);
+
+    fetch(`/persons/update/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -126,7 +128,7 @@ deleteBtn.addEventListener('click', function () {
     const id = editForm.getAttribute('data-id');
     if (!confirm('Are you sure you want to delete this employee?')) {
     
-        fetch(`/persons/${id}`, {
+        fetch(`/persons/delete/${id}`, {
             method: 'DELETE'
         })
         .then(response => {
