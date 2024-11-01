@@ -145,9 +145,7 @@ deleteBtn.addEventListener('click', function () {
 });
 
 
-editCloseModal.addEventListener('click', () => {
-    editModal.style.display = 'none';
-});
+
 
 addEmployeeBtn.addEventListener('click', () => {
     modal.style.display = 'block';
@@ -155,7 +153,12 @@ addEmployeeBtn.addEventListener('click', () => {
 
 closeModal.addEventListener('click', () => {
     modal.style.display = 'none';
+    editModal.style.display = 'none';
 });
+
+// editCloseModal.addEventListener('click', () => {
+//     editModal.style.display = 'none';
+// });
 
 window.addEventListener('click', (event) => {
     if (event.target === modal) {
