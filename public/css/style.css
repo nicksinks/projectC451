@@ -113,10 +113,20 @@ table {
     margin-top: 20px;
 }
 
+tr {
+    background-color: #f8f8f8;
+    min-width: 100%;
+}
+
 th, td {
     padding: 12px;
     border-bottom: 1px solid #ddd;
     text-align: left;
+    align-items: right;
+}
+
+td {
+    min-width: 15%;
 }
 
 th {
