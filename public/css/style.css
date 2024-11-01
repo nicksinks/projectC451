@@ -38,7 +38,8 @@ main {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 300px;
-    min-height: 250px;  /* Set a minimum height */
+    min-height: 10%;  /* Set a minimum height */
+    min-width: 75%;  /* Set a minimum width */
     padding: 1.5em;
     text-align: center;
     transition: transform 0.2s ease-in-out;
