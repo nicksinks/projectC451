@@ -67,7 +67,7 @@ const modal = document.getElementById('employee-modal');
 const addEmployeeBtn = document.getElementById('add-employee-btn');
 const closeModal = document.querySelector('.close-modal');
 const editModal = document.getElementById('edit-employee-modal');
-const editCloseModal = document.querySelector('.close-modal edit-close-modal');
+const editCloseModal = document.querySelector('.edit-close-modal');
 const editForm = document.getElementById('edit-employee-form');
 const deleteBtn = document.getElementById('delete-employee-btn');
 
