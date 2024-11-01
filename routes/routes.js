@@ -76,8 +76,9 @@ router.get('/persons/:id', (req, res) => {
 
 //use the delete statement from the edit modal
 router.get('/persons/delete/:id', (req, res) => {
+    const { id } = req.params;
     const query = 'DELETE FROM persons WHERE id = ?';
-    db.query(query, [req.params.id], (err, results) => {
+    db.query(query, [id], (err, results) => {
         if (err) {
             console.error('Error deleting employee:', err);
             return res.status(500).json({ error: 'Failed to delete employee' });
