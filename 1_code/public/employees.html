@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee List</title>
+    <link rel="stylesheet" href="css/style.css"> <!-- Linking the external CSS file -->
+</head>
+<body>
+    <header>
+        <h1>Employee Directory</h1>
+        <p>List of all employees in the company database</p>
+    </header>
+
+    <main>
+        <div id="json-data" class="employee-container">
+            <!-- Employees will be dynamically added here -->
+        </div>
+
+        <button id="add-employee-btn">Add Employee</button>
+
+        <!-- Modal for adding employees -->
+        <div id="employee-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Add a New Employee</h2>
+                <form id="add-employee-form">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="department">Department:</label>
+                    <input type="text" id="department" name="department" required>
+
+                    <label for="departmentID">departmentID:</label>
+                    <input type="text" id="departmentID" name="departmentID" required>
+
+                    <label for="secGroup">Security Group:</label>
+                    <input type="text" id="secGroup" name="secGroup" required>
+
+                    <button type="submit">Add Employee</button>
+                </form>
+            </div>
+        </div>
+           <!-- Edit Employee Modal -->
+        <div id="edit-employee-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal edit-close-modal">&times;</span>
+                <h2>Edit Employee</h2>
+                <form id="edit-employee-form">
+                    <label for="edit-name">Name:</label>
+                    <input type="text" id="edit-name" name="name" required>
+
+                    <label for="edit-email">Email:</label>
+                    <input type="email" id="edit-email" name="email" required>
+
+                    <label for="edit-department">Department:</label>
+                    <input type="text" id="edit-department" name="department" required>
+
+                    <label for="edit-departmentID">Department ID:</label>
+                    <input type="text" id="edit-departmentID" name="departmentID" required>
+
+                    <label for="edit-secGroup">Security Group:</label>
+                    <input type="text" id="edit-secGroup" name="secGroup" required>
+
+                    <button type="submit">Save Changes</button>
+                    <button type="button" id="delete-employee-btn">Delete Employee</button>
+                </form>
+            </div>
+        </div>
+
+
+    </main>
+    
+
+
+
+    <footer>
+        <p>&copy; 2024 Zeig Software</p>
+    </footer>
+
+    <script src="js/employee.js"></script> <!-- Linking the external JavaScript file -->
+</body>
+</html>
+
