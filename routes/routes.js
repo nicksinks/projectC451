@@ -119,7 +119,7 @@ router.get('/doors/:id', (req, res) => {
 
 router.post('/doors/add', (req, res) => {
     const { name, doorID, secGroup } = req.body;
-    const query = 'INSERT INTO doors (name, doorID, secGroup) VALUES (?, ?, ?)';
+    const query = 'INSERT INTO doors (doorID, building, secGroup) VALUES (?, ?, ?)';
     db.query(query, [name, doorID, secGroup], (err, results) => {
         if (err) {
             console.error('Error adding door:', err);
@@ -132,7 +132,7 @@ router.post('/doors/add', (req, res) => {
 router.post('/doors/update/:id', (req, res) => {
     const { id } = req.params;
     const { name, doorID, secGroup } = req.body;
-    const query = 'UPDATE doors SET name = ?, doorID = ?, secGroup = ? WHERE id = ?';
+    const query = 'UPDATE doors SET doorID = ?, building = ?, secGroup = ? WHERE id = ?';
     db.query(query, [name, doorID, secGroup, id], (err, results) => {
         if (err) {
             console.error('Error updating door:', err);
