@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee List</title>
+    <title>Door List</title>
     <link rel="stylesheet" href="css/style.css"> <!-- Linking the external CSS file -->
 </head>
 <body>
@@ -19,8 +19,8 @@
 
         <button id="add-door-btn">Add Door</button>
 
-        <!-- Modal for adding employees -->
-        <div id="employee-modal" class="modal">
+        <!-- Modal for adding doors -->
+        <div id="door-modal" class="modal">
             <div class="modal-content">
                 <span class="close-modal">&times;</span>
                 <h2>Add a New Door</h2>
@@ -34,7 +34,7 @@
                     <label for="secGroup">Security Group:</label>
                     <input type="text" id="secGroup" name="secGroup" required>
 
-                    <button type="submit">Add Employee</button>
+                    <button type="submit">Add Door</button>
                 </form>
             </div>
         </div>
@@ -43,7 +43,7 @@
             <div class="modal-content">
                 <span class="close-modal edit-close-modal">&times;</span>
                 <h2>Edit Door</h2>
-                <form id="edit-employee-form">
+                <form id="edit-door-form">
                     <label for="edit-doorID">Name:</label>
                     <input type="text" id="edit-doorID" name="doorID" required>
 
@@ -54,7 +54,7 @@
                     <input type="text" id="edit-secGroup" name="secGroup" required>
 
                     <button type="submit">Save Changes</button>
-                    <button type="button" id="delete-door-btn">Delete Employee</button>
+                    <button type="button" id="delete-door-btn">Delete Door</button>
                 </form>
             </div>
         </div>
