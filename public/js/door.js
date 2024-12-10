@@ -68,7 +68,7 @@ function openEditModal(id)  {
         .then(door => {
             // Populate the edit form with the door data
             editForm.elements['edit-doorID'].value = door.doorID;
-            editForm.elements['edit-building'].value = door.department;
+            editForm.elements['edit-building'].value = door.building;
             editForm.elements['edit-secGroup'].value = door.secGroup;
             editForm.setAttribute('data-id', id);
             // Show the edit modal
