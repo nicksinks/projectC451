@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Clear existing table data
         jsonDataContainer.innerHTML = '';
 
-        // Loop through each employee and create table rows securely
+        // Loop through each door and create table rows securely
         data.forEach(door => {
             const row = document.createElement('tr');
 
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const editButton = document.createElement('button');
             editButton.textContent = 'Edit';
             editButton.classList.add('edit-btn');
-            editButton.setAttribute('data-id', employee.id);
+            editButton.setAttribute('data-id', door.id);
             actionsCell.appendChild(editButton);
 
             // Append cells to the row
@@ -43,14 +43,14 @@ document.addEventListener('DOMContentLoaded', function () {
         // Add event listeners to the Edit buttons
         document.querySelectorAll('.edit-btn').forEach(button => {
             button.addEventListener('click', function () {
-                const employeeId = this.getAttribute('data-id');
+                const doorID = this.getAttribute('data-id');
                 openEditModal(doorID);
                 // TODO: Implement the edit functionality
             });
         });
     })
     .catch(error => {
-        console.error('Error fetching employee data:', error);
+        console.error('Error fetching door data:', error);
     });
 });
 
@@ -65,8 +65,8 @@ const deleteBtn = document.getElementById('delete-door-btn');
 function openEditModal(id)  {
     fetch(`/doors/${id}`)
         .then(response => response.json())
-        .then(employee => {
-            // Populate the edit form with the employee data
+        .then(door => {
+            // Populate the edit form with the door data
             editForm.elements['doorID'].value = door.doorID;
             editForm.elements['department'].value = door.department;
             editForm.elements['secGroup'].value = door.secGroup;
@@ -80,57 +80,54 @@ function openEditModal(id)  {
 editForm.addEventListener('submit', function (event)  {
     event.preventDefault();
     const id = editForm.getAttribute('data-id');
-    const updatedEmployee = {
-        name: editForm.elements['name'].value,
-        email: editForm.elements['email'].value,
-        department: editForm.elements['department'].value,
-        departmentID: editForm.elements['departmentID'].value,
+    const updatedDoor = {
+        name: editForm.elements['doorID'].value,
+        email: editForm.elements['building'].value,
         secGroup: editForm.elements['secGroup'].value
     };
 
-    console.log('Sending PUT request to update employee:', updatedEmployee);
+    console.log('Sending PUT request to update door:', updatedDoor);
 
     fetch(`/persons/update/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(updatedEmployee)
+        body: JSON.stringify(updatedDoor)
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Error updating employee');
-        }
-        alert('Employee updated successfully!');
+            throw new Error('Error updating door');
+        alert('Door updated successfully!');
         editModal.style.display = 'none';
         window.location.reload();
     })
 
     .catch(error => {
         console.error('Error:', error);
-        alert('Failed to update employee.');
+        alert('Failed to update doors.');
     });
 });
 
 deleteBtn.addEventListener('click', function () {
 
     const id = editForm.getAttribute('data-id');
-    if (!confirm('Are you sure you want to delete this employee?')) {
+    if (!confirm('Are you sure you want to delete this door?')) {
     
         fetch(`/persons/delete/${id}`, {
             method: 'DELETE'
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Error deleting employee');
+                throw new Error('Error deleting door');
             }
-            alert('Employee deleted successfully!');
+            alert('Door deleted successfully!');
             editModal.style.display = 'none';
             window.location.reload();
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Failed to delete employee.');
+            alert('Failed to delete door.');
         });
     }
 });
@@ -138,7 +135,7 @@ deleteBtn.addEventListener('click', function () {
 
 
 
-addEmployeeBtn.addEventListener('click', () => {
+addDoorBtn.addEventListener('click', () => {
     modal.style.display = 'block';
 });
 
@@ -156,18 +153,16 @@ window.addEventListener('click', (event) => {
     }
 });
 
-const form = document.getElementById('add-employee-form');
+const form = document.getElementById('add-door-form');
 form.addEventListener('submit', (event) => {
     event.preventDefault();
 
     const formData = new FormData(form);
-    const name = formData.get('name');
-    const email = formData.get('email');
-    const department = formData.get('department');
-    const departmentID = formData.get('departmentID');
+    const doorID = formData.get('doorID');
+    const building = formData.get('building');
     const secGroup = formData.get('secGroup');
 
-    // Send POST request to add new employee
+    // Send POST request to add new door
     fetch('/persons/add', {
         method: 'POST',
         headers: {
@@ -177,19 +172,19 @@ form.addEventListener('submit', (event) => {
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Error adding employee');
+            throw new Error('Error adding door');
         }
         return response.json();
     })
     .then(data => {
-        alert('Employee added successfully!');
+        alert('Door added successfully!');
         modal.style.display = 'none';
         form.reset();
-        // Optionally, reload employee list
+        // Optionally, reload door list
         window.location.reload();
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Failed to add employee.');
+        alert('Failed to add door.');
     });
 });
