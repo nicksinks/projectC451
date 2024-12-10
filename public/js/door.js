@@ -98,11 +98,11 @@ editForm.addEventListener('submit', function (event)  {
     .then(response => {
         if (!response.ok) {
             throw new Error('Error updating door');
+        }
         alert('Door updated successfully!');
         editModal.style.display = 'none';
         window.location.reload();
     })
-
     .catch(error => {
         console.error('Error:', error);
         alert('Failed to update doors.');
