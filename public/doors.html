@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee List</title>
+    <link rel="stylesheet" href="css/style.css"> <!-- Linking the external CSS file -->
+</head>
+<body>
+    <header>
+        <h1>Employee Directory</h1>
+        <p>List of all secured entry doors in the corporate campus</p>
+    </header>
+
+    <main>
+        <div id="json-data" class="door-container">
+            <!-- Employees will be dynamically added here -->
+        </div>
+
+        <button id="add-door-btn">Add Employee</button>
+
+        <!-- Modal for adding employees -->
+        <div id="employee-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Add a New Employee</h2>
+                <form id="add-door-form">
+                    <label for="doorID">DoorID:</label>
+                    <input type="text" id="doorID" name="doorID" required>
+
+                    <label for="Building">Building:</label>
+                    <input type="text" id="building" name="building" required>
+
+                    <label for="secGroup">Security Group:</label>
+                    <input type="text" id="secGroup" name="secGroup" required>
+
+                    <button type="submit">Add Employee</button>
+                </form>
+            </div>
+        </div>
+           <!-- Edit Door Modal -->
+        <div id="edit-door-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal edit-close-modal">&times;</span>
+                <h2>Edit Door</h2>
+                <form id="edit-employee-form">
+                    <label for="edit-doorID">Name:</label>
+                    <input type="text" id="edit-doorID" name="editDoorID" required>
+
+                    <label for="edit-departmentID">Department ID:</label>
+                    <input type="text" id="edit-building" name="editBuilding" required>
+
+                    <label for="edit-secGroup">Security Group:</label>
+                    <input type="text" id="edit-secGroup" name="editSecGroup" required>
+
+                    <button type="submit">Save Changes</button>
+                    <button type="button" id="delete-door-btn">Delete Employee</button>
+                </form>
+            </div>
+        </div>
+
+
+    </main>
+    
+
+
+
+    <footer>
+        <p>&copy; 2024 Zeig Software</p>
+    </footer>
+
+    <script src="js/door.js"></script> <!-- Linking the external JavaScript file -->
+</body>
+</html>
+
