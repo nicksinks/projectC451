@@ -120,7 +120,7 @@ router.get('/doors/:id', (req, res) => {
 router.post('/doors/add', (req, res) => {
     const { name, doorID, secGroup } = req.body;
     const query = 'INSERT INTO doors (doorID, building, secGroup) VALUES (?, ?, ?)';
-    db.query(query, [name, doorID, secGroup], (err, results) => {
+    db.query(query, [doorID, building, secGroup], (err, results) => {
         if (err) {
             console.error('Error adding door:', err);
             return res.status(500).json({ error: 'Failed to add door' });
