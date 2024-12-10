@@ -82,13 +82,13 @@ editForm.addEventListener('submit', function (event)  {
     const id = editForm.getAttribute('data-id');
     const updatedDoor = {
         name: editForm.elements['doorID'].value,
-        email: editForm.elements['building'].value,
+        building: editForm.elements['building'].value,
         secGroup: editForm.elements['secGroup'].value
     };
 
     console.log('Sending PUT request to update door:', updatedDoor);
 
-    fetch(`/persons/update/${id}`, {
+    fetch(`/doors/update/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -114,7 +114,7 @@ deleteBtn.addEventListener('click', function () {
     const id = editForm.getAttribute('data-id');
     if (!confirm('Are you sure you want to delete this door?')) {
     
-        fetch(`/persons/delete/${id}`, {
+        fetch(`/doors/delete/${id}`, {
             method: 'DELETE'
         })
         .then(response => {
@@ -163,12 +163,12 @@ form.addEventListener('submit', (event) => {
     const secGroup = formData.get('secGroup');
 
     // Send POST request to add new door
-    fetch('/persons/add', {
+    fetch('/doors/add', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ name, email, department, departmentID, secGroup })
+        body: JSON.stringify({ doorID, building, secGroup })
     })
     .then(response => {
         if (!response.ok) {
