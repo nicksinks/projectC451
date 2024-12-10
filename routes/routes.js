@@ -118,7 +118,7 @@ router.get('/doors/:id', (req, res) => {
 });
 
 router.post('/doors/add', (req, res) => {
-    const { name, doorID, secGroup } = req.body;
+    const { doorID, building, secGroup } = req.body;
     const query = 'INSERT INTO doors (doorID, building, secGroup) VALUES (?, ?, ?)';
     db.query(query, [doorID, building, secGroup], (err, results) => {
         if (err) {
@@ -131,9 +131,9 @@ router.post('/doors/add', (req, res) => {
 
 router.post('/doors/update/:id', (req, res) => {
     const { id } = req.params;
-    const { name, doorID, secGroup } = req.body;
+    const { doorID, building, secGroup } = req.body;
     const query = 'UPDATE doors SET doorID = ?, building = ?, secGroup = ? WHERE id = ?';
-    db.query(query, [name, doorID, secGroup, id], (err, results) => {
+    db.query(query, [doorID, building, secGroup, id], (err, results) => {
         if (err) {
             console.error('Error updating door:', err);
             return res.status(500).json({ error: 'Failed to update door' });
