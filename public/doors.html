@@ -8,22 +8,22 @@
 </head>
 <body>
     <header>
-        <h1>Employee Directory</h1>
+        <h1>Doors Directory</h1>
         <p>List of all secured entry doors in the corporate campus</p>
     </header>
 
     <main>
         <div id="json-data" class="door-container">
-            <!-- Employees will be dynamically added here -->
+            <!-- Doors will be dynamically added here -->
         </div>
 
-        <button id="add-door-btn">Add Employee</button>
+        <button id="add-door-btn">Add Door</button>
 
         <!-- Modal for adding employees -->
         <div id="employee-modal" class="modal">
             <div class="modal-content">
                 <span class="close-modal">&times;</span>
-                <h2>Add a New Employee</h2>
+                <h2>Add a New Door</h2>
                 <form id="add-door-form">
                     <label for="doorID">DoorID:</label>
                     <input type="text" id="doorID" name="doorID" required>
@@ -45,13 +45,13 @@
                 <h2>Edit Door</h2>
                 <form id="edit-employee-form">
                     <label for="edit-doorID">Name:</label>
-                    <input type="text" id="edit-doorID" name="editDoorID" required>
+                    <input type="text" id="edit-doorID" name="doorID" required>
 
                     <label for="edit-departmentID">Department ID:</label>
-                    <input type="text" id="edit-building" name="editBuilding" required>
+                    <input type="text" id="edit-building" name="building" required>
 
                     <label for="edit-secGroup">Security Group:</label>
-                    <input type="text" id="edit-secGroup" name="editSecGroup" required>
+                    <input type="text" id="edit-secGroup" name="secGroup" required>
 
                     <button type="submit">Save Changes</button>
                     <button type="button" id="delete-door-btn">Delete Employee</button>
