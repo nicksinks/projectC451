@@ -1,16 +1,23 @@
-// routes/chatbot.js
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const { Configuration, OpenAIApi } = require('openai');
-require('dotenv').config();
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
+const apiKey = process.env.OPENAI_API_KEY;
+
+let openai;
+if (apiKey) {
+  const configuration = new Configuration({ apiKey });
+  openai = new OpenAIApi(configuration);
+}
 
 router.post('/', async (req, res) => {
   const userMessage = req.body.message;
+
+  if (!openai) {
+    return res.json({ reply: "Chat assistant is not set up yet. Please add your API key." });
+  }
+
   try {
     const completion = await openai.createChatCompletion({
       model: "gpt-4",
@@ -24,3 +31,4 @@ router.post('/', async (req, res) => {
 });
 
 module.exports = router;
+
