@@ -5,6 +5,19 @@ const OpenAI = require('openai');
 
 const apiKey = process.env.OPENAI_API_KEY;
 
+const SYSTEM_MESSAGE = {
+  role: "system",
+  content: `
+    You are ZeigBot, a helpful assistant for Nicholas Zeig.
+    - Focus on helping with work tasks (e.g., writing, summarizing, researching, and planning).
+    - Be brief and professional.
+    - Never provide personal opinions unless asked.
+    - If a task is unclear, ask for clarification.
+    - Don't respond to questions outside productivity, tech, or business analysis unless told otherwise.
+  `
+};
+
+
 let openai;
 if (apiKey) {
   openai = new OpenAI({ apiKey });
@@ -20,7 +33,10 @@ router.post('/', async (req, res) => {
   try {
     const chatCompletion = await openai.chat.completions.create({
       model: 'gpt-4',
-      messages: [{ role: 'user', content: userMessage }]
+      messages: [
+        SYSTEM_MESSAGE,
+        { role: 'user', content: userMessage }
+      ]
     });
 
     res.json({ reply: chatCompletion.choices[0].message.content });
