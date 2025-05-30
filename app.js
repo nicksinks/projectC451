@@ -15,6 +15,10 @@ app.use(express.static(path.join(__dirname, 'public')));  // Serve static files 
 const routes = require('./routes/routes');
 app.use('/', routes);
 
+const chatbotRouter = require('./routes/chatbot');
+app.use('/api/chat', chatbotRouter);
+
+
 // Server start
 const port = process.env.PORT || 2000;
 app.listen(port, () => {
