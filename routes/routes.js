@@ -88,7 +88,7 @@ router.get('/persons/delete/:id', (req, res) => {
     });
 });
 // Export the router object
-module.exports = router;
+
 
 // Update the doors options in the select element
 router.get('/doors/list', (req, res) => {
@@ -153,4 +153,10 @@ router.get('/doors/delete/:id', (req, res) => {
         res.json({ message: 'Door deleted successfully' });
     });
 });
+
+router.get('/assist', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/chatAssistant.html'));
+});
+
+module.exports = router;
 
