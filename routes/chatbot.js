@@ -1,14 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const router = express.Router();
-const { Configuration, OpenAIApi } = require('openai');
+const OpenAI = require('openai');
 
 const apiKey = process.env.OPENAI_API_KEY;
 
 let openai;
 if (apiKey) {
-  const configuration = new Configuration({ apiKey });
-  openai = new OpenAIApi(configuration);
+  openai = new OpenAI({ apiKey });
 }
 
 router.post('/', async (req, res) => {
@@ -19,16 +18,18 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    const completion = await openai.createChatCompletion({
-      model: "gpt-4",
-      messages: [{ role: "user", content: userMessage }]
+    const chatCompletion = await openai.chat.completions.create({
+      model: 'gpt-4',
+      messages: [{ role: 'user', content: userMessage }]
     });
-    res.json({ reply: completion.data.choices[0].message.content });
-  } catch (err) {
-    console.error('Chatbot error:', err);
+
+    res.json({ reply: chatCompletion.choices[0].message.content });
+  } catch (error) {
+    console.error('Chatbot error:', error);
     res.status(500).json({ reply: 'Something went wrong with the chatbot.' });
   }
 });
 
 module.exports = router;
+
 
