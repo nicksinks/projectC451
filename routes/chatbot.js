@@ -3,7 +3,9 @@ const express = require('express');
 const router = express.Router();
 const OpenAI = require('openai');
 
-const apiKey = process.env.OPENAI_API_KEY;
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
 
 const SYSTEM_MESSAGE = {
   role: "system",
@@ -18,10 +20,10 @@ const SYSTEM_MESSAGE = {
 };
 
 
-let openai;
-if (apiKey) {
-  openai = new OpenAI({ apiKey });
-}
+// let openai;
+// if (apiKey) {
+//   openai = new OpenAI({ apiKey });
+// }
 
 router.post('/', async (req, res) => {
   const userMessage = req.body.message;
