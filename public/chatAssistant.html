@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chat Assistant</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; background: #f4f4f4; }
+    #chat-box { background: white; padding: 1rem; border-radius: 5px; height: 400px; overflow-y: auto; }
+    .message { margin: 0.5rem 0; }
+    .user { color: blue; }
+    .bot { color: green; }
+    #user-input { width: 80%; padding: 0.5rem; }
+    #send-btn { padding: 0.5rem 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Chat Assistant</h1>
+  <div id="chat-box"></div>
+  <input type="text" id="user-input" placeholder="Ask me anything..." />
+  <button id="send-btn">Send</button>
+
+  <script>
+    const chatBox = document.getElementById('chat-box');
+    const input = document.getElementById('user-input');
+    const button = document.getElementById('send-btn');
+
+    button.addEventListener('click', sendMessage);
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
+
+    async function sendMessage() {
+      const message = input.value.trim();
+      if (!message) return;
+
+      appendMessage('You', message, 'user');
+      input.value = '';
+
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message })
+      });
+      const data = await res.json();
+      appendMessage('Assistant', data.reply, 'bot');
+    }
+
+    function appendMessage(sender, text, type) {
+      const div = document.createElement('div');
+      div.className = `message ${type}`;
+      div.innerHTML = `<strong>${sender}:</strong> ${text}`;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  </script>
+</body>
+</html>
