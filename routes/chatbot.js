@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
 
   try {
     const chatCompletion = await openai.chat.completions.create({
-      model: 'gpt-4',
+      model: 'gpt-4.1-mini',
       messages: [
         SYSTEM_MESSAGE,
         { role: 'user', content: userMessage }
