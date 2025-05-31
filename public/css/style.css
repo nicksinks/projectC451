@@ -76,6 +76,14 @@ button:active {
   transform: scale(0.98);
 }
 
+.edit-btn {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px; /* optional spacing between buttons */
+  margin-top: 20px;
+}
+
+
 input[type="text"],
 input[type="email"] {
   width: 100%;
