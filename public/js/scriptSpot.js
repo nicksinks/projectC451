@@ -4,13 +4,29 @@ const API_BASE = '/spotsaver';
 const spotsContainer = document.getElementById('spots-container');
 const queueList = document.getElementById('queue-list');
 const usernameInput = document.getElementById('username-input');
+const phoneInput = document.getElementById('phone-input');
 const joinQueueBtn = document.getElementById('join-queue-btn');
 const claimModal = document.getElementById('claim-modal');
 const claimNameInput = document.getElementById('claim-name-input');
+const claimPhoneInput = document.getElementById('claim-phone-input');
+const claimNotifyTimeout = document.getElementById('claim-notify-timeout');
 const confirmClaimBtn = document.getElementById('confirm-claim-btn');
 const cancelClaimBtn = document.getElementById('cancel-claim-btn');
+const notifyAvailableCheckbox = document.getElementById('notify-available');
+const notifyTimeoutCheckbox = document.getElementById('notify-timeout');
+const settingsToggle = document.getElementById('settings-toggle');
+const settingsContent = document.getElementById('settings-content');
+const testSmsBtn = document.getElementById('test-sms-btn');
+const testPhoneInput = document.getElementById('test-phone-input');
 
 let currentSpotToClaim = null;
+
+// Settings toggle
+settingsToggle.addEventListener('click', () => {
+    settingsContent.classList.toggle('open');
+    const icon = settingsToggle.querySelector('.toggle-icon');
+    icon.textContent = settingsContent.classList.contains('open') ? '▲' : '▼';
+});
 
 // Fetch Data
 async function fetchData() {
@@ -75,9 +91,10 @@ function renderQueue(queue) {
 
         const date = new Date(item.joined_at);
         const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const hasPhone = item.phone_number ? '📱' : '';
 
         li.innerHTML = `
-            <span class="name">${item.name}</span>
+            <span class="name">${item.name} ${hasPhone}</span>
             <div style="display:flex; align-items:center;">
                 <span class="time">${timeStr}</span>
                 <button class="delete-btn" onclick="leaveQueue(${item.id})">&times;</button>
@@ -88,12 +105,12 @@ function renderQueue(queue) {
 }
 
 // Actions
-async function claimSpot(spotId, name) {
+async function claimSpot(spotId, name, phoneNumber, notifyOnTimeout) {
     try {
         const res = await fetch(`${API_BASE}/claim`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ spotId, name })
+            body: JSON.stringify({ spotId, name, phoneNumber, notifyOnTimeout })
         });
         if (res.ok) {
             fetchData();
@@ -127,14 +144,18 @@ async function joinQueue() {
         return;
     }
 
+    const phoneNumber = phoneInput.value.trim();
+    const notifyOnAvailable = notifyAvailableCheckbox.checked;
+
     try {
         const res = await fetch(`${API_BASE}/queue`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name })
+            body: JSON.stringify({ name, phoneNumber, notifyOnAvailable })
         });
         if (res.ok) {
             usernameInput.value = '';
+            phoneInput.value = '';
             fetchData();
         }
     } catch (error) {
@@ -155,6 +176,40 @@ window.leaveQueue = async function (id) {
     }
 };
 
+// Test SMS
+testSmsBtn.addEventListener('click', async () => {
+    const phoneNumber = testPhoneInput.value.trim();
+    if (!phoneNumber) {
+        alert('Please enter a phone number to test');
+        return;
+    }
+
+    try {
+        testSmsBtn.disabled = true;
+        testSmsBtn.textContent = 'Sending...';
+
+        const res = await fetch(`${API_BASE}/notifications/test`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ phoneNumber })
+        });
+
+        const result = await res.json();
+
+        if (result.success) {
+            alert('✅ Test SMS sent successfully! Check your phone.');
+        } else {
+            alert(`❌ Failed to send SMS: ${result.error || result.message}`);
+        }
+    } catch (error) {
+        alert('❌ Error sending test SMS');
+        console.error(error);
+    } finally {
+        testSmsBtn.disabled = false;
+        testSmsBtn.textContent = 'Test SMS';
+    }
+});
+
 // Modal Logic
 function openClaimModal(spotId) {
     currentSpotToClaim = spotId;
@@ -166,14 +221,19 @@ function closeClaimModal() {
     claimModal.classList.add('hidden');
     currentSpotToClaim = null;
     claimNameInput.value = '';
+    claimPhoneInput.value = '';
+    claimNotifyTimeout.checked = false;
 }
 
 // Event Listeners
 joinQueueBtn.addEventListener('click', joinQueue);
 confirmClaimBtn.addEventListener('click', () => {
     const name = claimNameInput.value.trim();
+    const phoneNumber = claimPhoneInput.value.trim();
+    const notifyOnTimeout = claimNotifyTimeout.checked;
+
     if (name && currentSpotToClaim) {
-        claimSpot(currentSpotToClaim, name);
+        claimSpot(currentSpotToClaim, name, phoneNumber, notifyOnTimeout);
     }
 });
 cancelClaimBtn.addEventListener('click', closeClaimModal);
