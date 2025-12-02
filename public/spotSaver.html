@@ -31,66 +31,8 @@
                     <!-- Spots will be injected here -->
                     <div class="spot-card skeleton"></div>
                     <div class="spot-card skeleton"></div>
-                </div>
-            </section>
 
-            <section class="queue-section">
-                <h2>Waiting Queue</h2>
-                <div class="queue-controls">
-                    <input type="text" id="username-input" placeholder="Enter your name" maxlength="20">
-                    <input type="tel" id="phone-input" placeholder="Phone (optional)" maxlength="15">
-                    <button id="join-queue-btn" class="btn primary">Join Queue</button>
-                </div>
-
-                <!-- Notification Settings -->
-                <div class="notification-settings">
-                    <div class="settings-header" id="settings-toggle">
-                        <span>🔔 Notification Settings</span>
-                        <span class="toggle-icon">▼</span>
-                    </div>
-                    <div class="settings-content" id="settings-content">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="notify-available" checked>
-                            <span>Notify me when a spot becomes available</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="notify-timeout">
-                            <span>Notify me 10 minutes before my 4.5 hour limit</span>
-                        </label>
-                        <div class="test-sms-section">
-                            <input type="tel" id="test-phone-input" placeholder="Test phone number">
-                            <button id="test-sms-btn" class="btn secondary">Test SMS</button>
-                        </div>
-                        <p class="settings-note">💡 SMS notifications require a valid phone number</p>
-                    </div>
-                </div>
-
-                <ul id="queue-list" class="queue-list">
-                    <!-- Queue items will be injected here -->
-                </ul>
-            </section>
-        </main>
-    </div>
-
-    <!-- Modal for claiming spot -->
-    <div id="claim-modal" class="modal hidden">
-        <div class="modal-content">
-            <h3>Claim Spot</h3>
-            <p>Enter your details to claim this spot.</p>
-            <input type="text" id="claim-name-input" placeholder="Your Name" maxlength="20">
-            <input type="tel" id="claim-phone-input" placeholder="Phone (optional)" maxlength="15">
-            <label class="checkbox-label">
-                <input type="checkbox" id="claim-notify-timeout">
-                <span>Notify me 10 min before 4.5 hour limit</span>
-            </label>
-            <div class="modal-actions">
-                <button id="cancel-claim-btn" class="btn secondary">Cancel</button>
-                <button id="confirm-claim-btn" class="btn primary">Claim</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="/js/scriptSpot.js"></script>
+                    <script src="/js/scriptSpot.js"></script>
 </body>
 
 </html>

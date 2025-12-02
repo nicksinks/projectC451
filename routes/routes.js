@@ -163,7 +163,6 @@ router.get('/assist', (req, res) => {
 });
 
 // ===== SpotSaver Routes =====
-const twilioService = require('../services/twilioService');
 
 // GET /spotsaver/status - Get all spots and queue
 router.get('/spotsaver/status', (req, res) => {
@@ -189,7 +188,7 @@ router.get('/spotsaver/status', (req, res) => {
 
 // POST /spotsaver/claim - Claim a spot
 router.post('/spotsaver/claim', (req, res) => {
-    const { spotId, name, phoneNumber, notifyOnTimeout } = req.body;
+    const { spotId, name } = req.body;
     if (!spotId || !name) {
         return res.status(400).json({ error: 'Spot ID and name are required' });
     }
@@ -208,18 +207,12 @@ router.post('/spotsaver/claim', (req, res) => {
 
         const spot = results[0];
 
-        // Claim the spot with phone number and notification preferences
-        const updateQuery = 'UPDATE spots SET is_occupied = TRUE, occupied_by = ?, occupied_at = NOW(), phone_number = ?, notify_on_timeout = ? WHERE id = ?';
-        db.query(updateQuery, [name, phoneNumber || null, notifyOnTimeout || false, spotId], (err, results) => {
+        // Claim the spot
+        const updateQuery = 'UPDATE spots SET is_occupied = TRUE, occupied_by = ?, occupied_at = NOW() WHERE id = ?';
+        db.query(updateQuery, [name, spotId], (err, results) => {
             if (err) {
                 console.error('Error claiming spot:', err);
                 return res.status(500).json({ error: 'Server error' });
-            }
-
-            // Send confirmation SMS if phone number provided
-            if (phoneNumber) {
-                twilioService.sendSpotClaimedNotification(phoneNumber, spot.name)
-                    .catch(err => console.error('SMS send error:', err));
             }
 
             res.json({ success: true });
@@ -234,50 +227,27 @@ router.post('/spotsaver/release', (req, res) => {
         return res.status(400).json({ error: 'Spot ID is required' });
     }
 
-    // Get spot info before releasing
-    const getSpotQuery = 'SELECT * FROM spots WHERE id = ?';
-    db.query(getSpotQuery, [spotId], (err, spotResults) => {
+    // Release the spot
+    const releaseQuery = 'UPDATE spots SET is_occupied = FALSE, occupied_by = NULL, occupied_at = NULL WHERE id = ?';
+    db.query(releaseQuery, [spotId], (err, results) => {
         if (err) {
-            console.error('Error fetching spot:', err);
+            console.error('Error releasing spot:', err);
             return res.status(500).json({ error: 'Server error' });
         }
 
-        const spot = spotResults[0];
-
-        // Release the spot
-        const releaseQuery = 'UPDATE spots SET is_occupied = FALSE, occupied_by = NULL, occupied_at = NULL, phone_number = NULL, notify_on_timeout = FALSE WHERE id = ?';
-        db.query(releaseQuery, [spotId], (err, results) => {
-            if (err) {
-                console.error('Error releasing spot:', err);
-                return res.status(500).json({ error: 'Server error' });
-            }
-
-            // Notify first person in queue if they want notifications
-            const queueQuery = 'SELECT * FROM queue WHERE notify_on_available = TRUE ORDER BY joined_at ASC LIMIT 1';
-            db.query(queueQuery, (err, queueResults) => {
-                if (err) {
-                    console.error('Error fetching queue:', err);
-                } else if (queueResults.length > 0 && queueResults[0].phone_number) {
-                    const queueMember = queueResults[0];
-                    twilioService.sendSpotAvailableNotification(queueMember.phone_number, spot.name)
-                        .catch(err => console.error('SMS send error:', err));
-                }
-            });
-
-            res.json({ success: true });
-        });
+        res.json({ success: true });
     });
 });
 
 // POST /spotsaver/queue - Join queue
 router.post('/spotsaver/queue', (req, res) => {
-    const { name, phoneNumber, notifyOnAvailable } = req.body;
+    const { name } = req.body;
     if (!name) {
         return res.status(400).json({ error: 'Name is required' });
     }
 
-    const query = 'INSERT INTO queue (name, phone_number, notify_on_available) VALUES (?, ?, ?)';
-    db.query(query, [name, phoneNumber || null, notifyOnAvailable !== false], (err, results) => {
+    const query = 'INSERT INTO queue (name) VALUES (?)';
+    db.query(query, [name], (err, results) => {
         if (err) {
             console.error('Error joining queue:', err);
             return res.status(500).json({ error: 'Server error' });
@@ -297,37 +267,6 @@ router.delete('/spotsaver/queue/:id', (req, res) => {
         }
         res.json({ success: true });
     });
-});
-
-// PUT /spotsaver/queue/:id/preferences - Update notification preferences
-router.put('/spotsaver/queue/:id/preferences', (req, res) => {
-    const { id } = req.params;
-    const { notifyOnAvailable } = req.body;
-
-    const query = 'UPDATE queue SET notify_on_available = ? WHERE id = ?';
-    db.query(query, [notifyOnAvailable, id], (err, results) => {
-        if (err) {
-            console.error('Error updating preferences:', err);
-            return res.status(500).json({ error: 'Server error' });
-        }
-        res.json({ success: true });
-    });
-});
-
-// POST /spotsaver/notifications/test - Test SMS notification
-router.post('/spotsaver/notifications/test', async (req, res) => {
-    const { phoneNumber } = req.body;
-
-    if (!phoneNumber) {
-        return res.status(400).json({ error: 'Phone number is required' });
-    }
-
-    try {
-        const result = await twilioService.sendTestNotification(phoneNumber);
-        res.json(result);
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
 });
 
 module.exports = router;
