@@ -19,6 +19,10 @@ router.get('/employees', (req, res) => {
 router.get('/doors', (req, res) => {
         res.sendFile(path.join(__dirname, '../public/doors.html'));
 });
+
+router.get('/spotSaver', (req, res) => {
+        res.sendFile(path.join(__dirname, '../public/spotSaver.html'));
+});
 //get all employees by running a SQL select query
 router.get('/persons/list', (req, res) => {
         const query = 'SELECT * FROM persons';
