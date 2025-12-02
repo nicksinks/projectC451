@@ -8,8 +8,8 @@ const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
 
 let client = null;
 
-// Only initialize if credentials are present
-if (accountSid && authToken && twilioPhoneNumber) {
+// Only initialize if credentials are present and valid
+if (accountSid && accountSid.startsWith('AC') && authToken && twilioPhoneNumber) {
     client = twilio(accountSid, authToken);
     console.log('✅ Twilio SMS service initialized');
 } else {
