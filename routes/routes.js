@@ -162,5 +162,107 @@ router.get('/assist', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/chatAssistant.html'));
 });
 
+// ===== SpotSaver Routes =====
+
+// GET /spotsaver/status - Get all spots and queue
+router.get('/spotsaver/status', (req, res) => {
+    const spotsQuery = 'SELECT * FROM spots';
+    const queueQuery = 'SELECT * FROM queue ORDER BY joined_at ASC';
+    
+    db.query(spotsQuery, (err, spots) => {
+        if (err) {
+            console.error('Error fetching spots:', err);
+            return res.status(500).json({ error: 'Failed to fetch spots' });
+        }
+        
+        db.query(queueQuery, (err, queue) => {
+            if (err) {
+                console.error('Error fetching queue:', err);
+                return res.status(500).json({ error: 'Failed to fetch queue' });
+            }
+            
+            res.json({ spots, queue });
+        });
+    });
+});
+
+// POST /spotsaver/claim - Claim a spot
+router.post('/spotsaver/claim', (req, res) => {
+    const { spotId, name } = req.body;
+    if (!spotId || !name) {
+        return res.status(400).json({ error: 'Spot ID and name are required' });
+    }
+
+    // Check if spot is available
+    const checkQuery = 'SELECT * FROM spots WHERE id = ? AND is_occupied = FALSE';
+    db.query(checkQuery, [spotId], (err, results) => {
+        if (err) {
+            console.error('Error checking spot availability:', err);
+            return res.status(500).json({ error: 'Server error' });
+        }
+        
+        if (results.length === 0) {
+            return res.status(400).json({ error: 'Spot is not available' });
+        }
+
+        // Claim the spot
+        const updateQuery = 'UPDATE spots SET is_occupied = TRUE, occupied_by = ?, occupied_at = NOW() WHERE id = ?';
+        db.query(updateQuery, [name, spotId], (err, results) => {
+            if (err) {
+                console.error('Error claiming spot:', err);
+                return res.status(500).json({ error: 'Server error' });
+            }
+            res.json({ success: true });
+        });
+    });
+});
+
+// POST /spotsaver/release - Release a spot
+router.post('/spotsaver/release', (req, res) => {
+    const { spotId } = req.body;
+    if (!spotId) {
+        return res.status(400).json({ error: 'Spot ID is required' });
+    }
+
+    const query = 'UPDATE spots SET is_occupied = FALSE, occupied_by = NULL, occupied_at = NULL WHERE id = ?';
+    db.query(query, [spotId], (err, results) => {
+        if (err) {
+            console.error('Error releasing spot:', err);
+            return res.status(500).json({ error: 'Server error' });
+        }
+        res.json({ success: true });
+    });
+});
+
+// POST /spotsaver/queue - Join queue
+router.post('/spotsaver/queue', (req, res) => {
+    const { name } = req.body;
+    if (!name) {
+        return res.status(400).json({ error: 'Name is required' });
+    }
+
+    const query = 'INSERT INTO queue (name) VALUES (?)';
+    db.query(query, [name], (err, results) => {
+        if (err) {
+            console.error('Error joining queue:', err);
+            return res.status(500).json({ error: 'Server error' });
+        }
+        res.json({ success: true });
+    });
+});
+
+// DELETE /spotsaver/queue/:id - Leave queue
+router.delete('/spotsaver/queue/:id', (req, res) => {
+    const { id } = req.params;
+    const query = 'DELETE FROM queue WHERE id = ?';
+    db.query(query, [id], (err, results) => {
+        if (err) {
+            console.error('Error leaving queue:', err);
+            return res.status(500).json({ error: 'Server error' });
+        }
+        res.json({ success: true });
+    });
+});
+
 module.exports = router;
 

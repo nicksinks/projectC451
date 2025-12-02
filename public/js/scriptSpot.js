@@ -1,4 +1,4 @@
-const API_BASE = '/spotsaver/api';
+const API_BASE = '/spotsaver';
 
 // Elements
 const spotsContainer = document.getElementById('spots-container');
