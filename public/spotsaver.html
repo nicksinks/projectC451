@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpotSaver</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styleSpot.css">
+</head>
+
+<body>
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>SpotSaver</h1>
+            <p>Share charging spots efficiently.</p>
+        </header>
+
+        <main>
+            <section class="spots-section">
+                <h2>Charging Spots</h2>
+                <div id="spots-container" class="spots-grid">
+                    <!-- Spots will be injected here -->
+                    <div class="spot-card skeleton"></div>
+                    <div class="spot-card skeleton"></div>
+                </div>
+            </section>
+
+            <section class="queue-section">
+                <h2>Waiting Queue</h2>
+                <div class="queue-controls">
+                    <input type="text" id="username-input" placeholder="Enter your name" maxlength="20">
+                    <button id="join-queue-btn" class="btn primary">Join Queue</button>
+                </div>
+                <ul id="queue-list" class="queue-list">
+                    <!-- Queue items will be injected here -->
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for claiming spot -->
+    <div id="claim-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Claim Spot</h3>
+            <p>Enter your name to claim this spot.</p>
+            <input type="text" id="claim-name-input" placeholder="Your Name" maxlength="20">
+            <div class="modal-actions">
+                <button id="cancel-claim-btn" class="btn secondary">Cancel</button>
+                <button id="confirm-claim-btn" class="btn primary">Claim</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/scripts/scriptSpot.js"></script>
+</body>
+
+</html>
